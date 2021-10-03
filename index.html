@@ -6,14 +6,155 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MIDI</title>
     <style>
+        :root {
+            --text-colour:hsl(33, 75%, 80%);
+            background-color: #333;
+            color: var(--text-colour);
+            fill: var(--text-colour);
+            font-family: Arial, Helvetica, sans-serif;
+            --knob-angle: -140deg;
+        }
         h2 {white-space: pre;}
+        .inst {
+            display: inline-block;
+            border: 1px solid;
+            padding: 0.5em;
+        }
+        .active {
+            outline: 2px solid orange;
+        }
+        svg {
+            width: 400px;
+        }
+        section[id] {
+            display: flex;
+        }
+        section[id]>div::before {
+            content:"";
+            display: block;
+            width:72px;
+            height:72px;
+            /* background-color: var(--text-colour); */
+            background: radial-gradient(transparent, transparent calc(100% - 17px), currentColor  calc(100% - 16px));
+            border-radius: 50%;
+        }
+        section[id]>div::after {
+            content:"";
+            display: block;
+            width:72px;
+            height:72px;
+            background: radial-gradient(circle at top, currentColor 6px, transparent 6px, transparent);
+            position: absolute;
+            transform: rotate(var(--knob-angle));
+            top:8px;
+        }
+        section[id]>div {
+            padding: 0.5em;
+            position: relative;
+            border: 1px solid;
+            width: min-content;
+            text-align: center;
+        }
+        section[id]::before {
+            content: attr(id);
+            writing-mode: vertical-rl;
+            text-align: center;
+            text-transform: uppercase;
+            margin-right: 0.25em;
+        }
+        header {display: flex; flex-wrap: wrap; justify-content: space-evenly;}
     </style>
 </head>
 <body>
-    <h1>MIDI Shell</h1>
+    <header>
+    <h1>MIDI Synth Editor</h1>
+    <svg viewBox="0 0 1400 160">
+        <g xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M32.58,47.26c0,13.2,7.77,26.9,25.67,26.9c6.79,0,13.08-2.1,17.65-5.8c4.07-3.33,5.31-6.17,6.29-8.76l29.74,3.08   c-0.99,3.21-2.1,6.42-4.94,10.86C96.74,89.34,76.75,93.78,57.63,93.78c-8.51,0-16.91-0.74-24.93-3.21C14.81,85.02,0,71.32,0,47.38   C0,30.48,8.88,0,58.49,0c42.33,0,48.99,19.25,51.83,27.52L81.44,32.7c-1.23-2.47-2.71-5.8-7.28-8.76   c-4.69-2.96-10.49-3.95-14.93-3.95C45.16,19.99,32.58,28.75,32.58,47.26z" />
+            <path d="M154.49,3.7v87.12h-31.22V3.7H154.49z" />
+            <path
+                d="M169.17,3.7h64.04c7.65,0.12,17.03,0.25,24.31,5.55c6.29,4.81,10.24,13.33,10.24,22.09c0,6.17-1.97,12.22-5.55,16.54   c-4.94,5.92-10.86,7.16-14.56,8.14l21.84,34.8h-34.55l-17.89-31.71h-16.66v31.71h-31.22V3.7z M200.39,39.36h23.45   c4.81,0,12.71-0.12,12.71-7.9c0-1.97-0.62-4.07-2.22-5.55c-2.47-2.22-5.68-2.47-8.02-2.47h-25.91V39.36z" />
+            <path
+                d="M309.71,47.26c0,13.2,7.77,26.9,25.67,26.9c6.79,0,13.08-2.1,17.65-5.8c4.07-3.33,5.31-6.17,6.29-8.76l29.74,3.08   c-0.99,3.21-2.1,6.42-4.94,10.86c-10.24,15.79-30.23,20.24-49.36,20.24c-8.51,0-16.91-0.74-24.93-3.21   c-17.89-5.55-32.7-19.25-32.7-43.19c0-16.91,8.88-47.38,58.49-47.38c42.33,0,48.99,19.25,51.83,27.52l-28.88,5.18   c-1.23-2.47-2.71-5.8-7.28-8.76c-4.69-2.96-10.49-3.95-14.93-3.95C322.3,19.99,309.71,28.75,309.71,47.26z" />
+            <path
+                d="M397.93,3.7h31.1v49.48c0,5.43,0.49,9.38,2.47,12.71c3.95,6.79,11.85,8.64,18.14,8.64c8.14,0,12.83-2.84,14.93-4.81   c5.31-4.94,5.43-12.83,5.43-17.03V3.7h31.1v45.66c0,10.24-0.25,20.98-5.06,28.38c-9.5,14.81-32.45,16.17-46.27,16.17   c-19.37,0-30.36-2.71-36.9-6.66c-13.57-6.66-14.93-20.48-14.93-27.52V3.7z" />
+            <path d="M548.59,3.7v87.12h-31.22V3.7H548.59z" />
+            <path d="M653.85,3.58V23.2H623v67.62h-31.47V23.2h-30.97V3.58H653.85z" />
+            <path d="M720.97,3.7h83.54v10.37h-35.66v76.75h-12.34V14.07h-35.54V3.7z" />
+            <path
+                d="M817.09,3.7h59.23c7.65,0.12,16.91,0.25,24.43,7.03c2.84,2.47,7.77,8.14,7.77,18.63c0,20.85-17.65,23.69-23.45,24.68   l32.08,36.77H901l-29.49-34.8h-42.08v34.8h-12.34V3.7z M829.3,14.19v31.59h43.07c6.79,0,15.42-0.12,20.36-6.66   c2.22-2.84,2.96-6.17,2.96-9.25c0-3.33-0.86-6.66-2.59-9.25c-3.95-6.29-10.24-6.29-15.92-6.42H829.3z" />
+            <path
+                d="M972.07,3.58h13.08l44.67,87.24h-14.19l-10.61-21.47h-53.55l-10.61,21.47h-13.82L972.07,3.58z M981.32,22.58   c-0.62-1.48-1.36-2.96-1.97-4.44c-0.37-1.11-0.74-2.22-0.99-3.33c-0.37,1.11-0.74,2.34-1.23,3.58c-0.62,1.6-1.36,3.08-2.1,4.69   l-18.39,36.16h43.07L981.32,22.58z" />
+            <path
+                d="M1134.33,66.88c-3.33,5.92-6.79,11.85-15.42,17.28c-10.74,6.79-24.56,8.76-35.04,8.76c-35.42,0-52.94-20.36-52.94-46.27   c0-20.61,10.24-30.11,16.17-34.55c3.7-2.96,14.07-10.98,36.4-10.98c6.29,0,21.47,0.86,33.19,8.14c9.25,5.8,13.57,13.08,15.92,17.03   l-13.33,2.96c-1.97-3.46-4.07-7.16-9.5-10.74c-5.31-3.46-14.68-6.54-25.79-6.54c-20.73,0-39.98,9.75-39.98,34.3   c0,8.64,2.47,17.52,9.01,24.8c5.92,6.05,16.04,11.11,31.71,11.11c13.45,0.12,22.46-3.33,27.76-7.53c4.69-3.46,7.53-7.9,8.76-10.49   L1134.33,66.88z" />
+            <path
+                d="M1151.1,3.7h12.22v46.4l62.81-46.4h18.14l-44.05,32.82L1246,90.82h-16.54l-39.36-46.89l-27.02,19.87v27.02h-11.97V3.7z" />
+            <path
+                d="M1259.56,68.49c1.36,1.6,2.71,3.08,6.05,5.31c9.5,6.54,21.1,8.51,32.58,8.51c19.13,0,29.62-7.03,29.62-17.65   c0-12.09-13.7-13.2-30.97-14.68c-21.84-1.85-29.37-2.47-36.03-8.51c-5.31-4.94-6.17-10.49-6.17-14.56   c0-24.8,32.82-25.42,40.84-25.42c12.22,0,24.56,1.97,34.67,8.76c4.32,2.96,6.29,5.31,8.76,8.76l-11.23,4.57   c-1.85-1.85-2.96-3.08-5.06-4.57c-7.77-5.55-17.4-7.28-26.9-7.28c-7.03,0-15.79,0.99-20.98,3.58c-6.05,2.96-7.77,7.4-7.77,10.98   c0,2.59,0.99,4.94,2.59,6.66c2.96,3.46,7.53,4.2,15.67,5.06c7.9,0.86,15.67,1.36,23.57,2.22c3.7,0.37,7.53,0.86,11.23,1.73   c9.38,2.22,19.99,8.27,19.99,22.58c0,3.58-0.62,9.13-4.44,14.56c-6.79,9.62-20.24,13.82-38.25,13.82c-7.16,0-16.29-0.99-22.46-2.59   c-17.89-4.44-24.19-13.57-26.65-17.15L1259.56,68.49z" />
+        </g>
+    </svg>
     <h2 id="midiDeviceName"></h2>
+    </header>
+    <div class="inst">Synth 1</div>
+    <div class="inst">Synth 2</div>
+    <div class="inst">MIDI 1</div>
+    <div class="inst">MIDI 2</div>
+    <div class="inst">Drum 1</div>
+    <div class="inst">Drum 2</div>
+    <div class="inst">Drum 3</div>
+    <div class="inst">Drum 4</div>
+    <hr/>
+    <section id="osc1"></section>
+    <section id="osc2"></section>
     <script>
     var midi;
+    var activeColumn = undefined;
+    var shiftState = 0;
+    var lastShiftEdge = undefined;
+    const td = new TextDecoder("ascii");
+    function onMIDIMessage(event) {
+        var str = "MIDI message received at timestamp " + event.timeStamp.toFixed(3) + "[" + event.data.length + " bytes]: ";
+        if (event.data[0] === 0xf8)
+            return;
+        if (procSysex(event))
+            return;
+        for (var i = 0; i < event.data.length; i++) {
+            str += "0x" + event.data[i].toString(16) + " ";
+        }
+        console.log(str);
+    }
+    function setActiveColumn(col){
+        let cols = document.querySelectorAll(".inst");
+        if (activeColumn!=undefined)
+            cols[activeColumn].classList.remove("active");
+        activeColumn = col;
+        cols[activeColumn].classList.add("active");
+    }
+    function setShiftState(event){
+        shiftState = event.data[8];
+        if (lastShiftEdge!=undefined)
+            console.log(event.timeStamp-lastShiftEdge);
+        lastShiftEdge = event.timeStamp;
+    }
+    function procSysex(event)
+    {
+        if (td.decode(event.data.slice(0,6))=== 'ð\x00 )\x01d'){
+            switch (td.decode(event.data.slice(6,8))){
+                case '\b\x01':
+                case '\b\x00':
+                    setShiftState(event);
+                    break;
+                case '\x04\x03':
+                    console.log(`Column ${event.data[8]}`);
+                    setActiveColumn(event.data[8]);
+                    break;
+            }
+            return true;
+        }
+        return false;
+    }
+
     function onMIDISuccess(midiAccess) {
         let txt = "";
         midi = midiAccess;  // store in the global (in real usage, would probably keep in an object instance)
@@ -27,6 +168,7 @@
             sel.appendChild(op);
         }
         midiDeviceName.appendChild(sel);
+        midiAccess.inputs.forEach(function (entry) { entry.onmidimessage = onMIDIMessage; });
     }
 
     function onMIDIFailure(msg) {
@@ -34,7 +176,37 @@
     }
 
     navigator.requestMIDIAccess({sysex:true}).then(onMIDISuccess, onMIDIFailure);
-
+    prams = [
+{g:"osc1",n:"wave",p:"CC 19",m:"0 – 29"},
+{g:"osc1",n:"wave interpolate",p:"CC 20",m:"0 – 127"},
+{g:"osc1",n:"pw/index",p:"CC 21",m:"0 – 127"},
+{g:"osc1",n:"v-sync",p:"CC 22",m:"0 – 127"},
+{g:"osc1",n:"density",p:"CC 24",m:"0 – 127"},
+{g:"osc1",n:"density detune",p:"CC 25",m:"0 – 127"},
+{g:"osc1",n:"semitones",p:"CC 26",m:"0 – 127"},
+{g:"osc1",n:"cents",p:"CC 27",m:"0 – 127"},
+//{g:"osc1",n:"pitchbend",p:"CC 28",m:"52 – 76"},
+{g:"osc2",n:"wave",p:"CC 29",m:"0 – 29"},
+{g:"osc2",n:"wave interpolate",p:"CC 30",m:"0 – 127"},
+{g:"osc2",n:"pw/index",p:"CC 31",m:"0 – 127"},
+{g:"osc2",n:"v-sync",p:"CC 33",m:"0 – 127"},
+{g:"osc2",n:"density",p:"CC 35",m:"0 – 127"},
+{g:"osc2",n:"density detune",p:"CC 36",m:"0 – 127"},
+{g:"osc2",n:"semitones",p:"CC 37",m:"0 – 127"},
+{g:"osc2",n:"cents",p:"CC 39",m:"0 – 127"},
+//{g:"osc2",n:"pitchbend",p:"CC 40",m:"52	– 76"}
+];
+        prams.forEach(function (p) {
+            let parent = document.getElementById(p.g);
+            if (parent) {
+                let el = document.createElement("div");
+                let ang = Math.random()*128>>0;
+                el.textContent = p.n;
+                el.setAttribute("data-val", ang);
+                el.setAttribute("style",`--knob-angle:${ang*2-128}deg`);
+                parent.appendChild(el);
+            }
+        });
     </script>
 </body>
 </html>

@@ -82,6 +82,9 @@ section[id]::before {
     text-align: center;
     text-transform: uppercase;
     margin-right: 0.25em;
+    background:linear-gradient(transparent, var(--text-colour),var(--text-colour), transparent);
+    color: black;
+    font-weight: bold;
 }
 header {
     display: flex;

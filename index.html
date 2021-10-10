@@ -31,6 +31,12 @@
     <section id="filter"></section>
     </main>
     <script>
+        /* todo:
+            1. create ES Module for midi fuctions
+            2. tidy prams structure to handle bipolar and NRPN
+            3. add click/touch module access from app
+            4. send, receive, save & load sysex patch data
+        */
     var midi, midiout, lastActiveKnob;
     var activeColumn = undefined;
     var shiftState = 0;
@@ -68,7 +74,7 @@
     function shortClick(){
         let oldmod = document.querySelector("section.active");
         oldmod.classList.remove("active");
-        knobOffset += 8;
+        knobOffset += Math.min(8,oldmod.children.length);
         if (knobOffset>prams.length)
             knobOffset = 0;
         // get module that contains new first knob
@@ -80,12 +86,13 @@
             return false;
         let kx = {k1:0,k2:1,k5:2,kb:3,kc:4,kd:5,k47:6,k4a:7};
         let ix = kx['k'+event.data[1].toString(16)] + knobOffset;
+        let newop = event.data[2];
         let cache = prams[ix];
         if (ix===undefined)
             return false;
         if (cache.scale) {
             // get current list option and scaled knob position
-            let newop = Math.floor(event.data[2]/cache.scale);
+            newop = Math.floor(event.data[2]/cache.scale);
             if (newop != cache.val){
                 let ch = cache.domel.firstElementChild.children;
                 ch[cache.val].classList.remove("selected-option");
@@ -98,6 +105,9 @@
             prams[ix].domel.setAttribute("data-val", event.data[2]);
             prams[ix].domel.setAttribute("style", `--knob-angle:${(event.data[2] * 2.4 - 153).toFixed(1)}deg`);
         }
+        // remap to Synth 1 channel with prams cc
+        let cc = prams[ix].p.slice(3) >> 0;
+        midiout.send([0xb1, cc, newop]);
         if (lastActiveKnob==ix)
             return true;
         if (lastActiveKnob!=undefined)
@@ -228,8 +238,8 @@ types = [
 {g: "filter", n:"frequency", p:"CC 74", m:"0 – 127" },
 {g: "filter", n:"tracking", p:"CC 69", m:"0	– 127" },
 {g: "filter", n:"resonance", p:"CC 71", m:"0	– 127" },
-{g: "filter", n:"Q normalize", p:"CC 78", m:"0	– 127" },
 {g: "filter", n:"env2 mod", p:"CC 79", m:"0	– 127" },
+{g: "filter", n:"Q normalize", p:"CC 78", m:"0	– 127" },
 
 
 ];

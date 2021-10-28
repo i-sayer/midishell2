@@ -29,6 +29,8 @@
     <section id="osc2"></section>
     <section id="mixer"></section>
     <section id="filter"></section>
+    <section id="reverb"></section>
+    <section id="delay"></section>
     </main>
     <script>
         /* todo:
@@ -206,6 +208,9 @@ types = [
 "highpass	12dB",
 "highpass	24dB",
 ];
+tempoSync = ["off", "1/32T", "1/32", "1/16T", "1/16", "1/8T", "1/16D", "1/8",
+        "1/4T", "1/8D", "1/4", "1.1/3", "1/4D", "1/2", "2.2/3", "3", "4", "5.1/3", "6", "8", "10.2/3", "12", "13.1/3",
+        "16", "18", "18.2/3", "20", "21.1/3", "24", "28", "30", "32", "36", "42", "48", "64"];
     prams = [
 {g:"osc1",n:"wave",p:"CC 19",m:oscwav},
 {g:"osc1",n:"wave interpolate",p:"CC 20",m:"0 – 127"},
@@ -240,6 +245,14 @@ types = [
 {g: "filter", n:"resonance", p:"CC 71", m:"0	– 127" },
 {g: "filter", n:"env2 mod", p:"CC 79", m:"0	– 127" },
 {g: "filter", n:"Q normalize", p:"CC 78", m:"0	– 127" },
+{g: "reverb", n:"Type", p:"1:18", m:["Chamber","Small Room","Large Room","Small Hall","Large Hall","Great Hall"] },
+{g: "reverb", n:"Decay", p:"1:19", m:"0 - 127" },
+{g: "reverb", n:"Damping", p:"1:20", m:"0 - 127" },
+{g: "delay", n:"Time", p:"1:6", m:"0 - 127" },
+{g: "delay", n:"Sync", p:"1:7", m:tempoSync },
+{g: "delay", n:"Feedback", p:"1:8", m:"0 - 127" },
+{g: "delay", n:"Width", p:"1:9", m:"0 - 127" },
+{g: "delay", n:"L/R Ratio", p:"1:10", m:"0 - 127" },
 
 
 ];

@@ -45,6 +45,9 @@ section[id]>div::before {
     background: radial-gradient(transparent, transparent calc(100% - 17px), currentColor  calc(100% - 16px));
     border-radius: 50%;
 }
+section[id]>div.bipolar::before {
+    content: attr(data-valbp);
+}
 section[id]>div::after {
     content:"";
     display: block;
@@ -53,6 +56,7 @@ section[id]>div::after {
     background: radial-gradient(circle at 50% 8px, currentColor 4px, transparent 5px, transparent);
     position: absolute;
     transform: rotate(var(--knob-angle));
+    transition: transform 100ms ease-out;
     top:6px;
 }
 section[id]>p>ul>li {

@@ -104,8 +104,7 @@
             }
 
         } else {
-            prams[ix].domel.setAttribute("data-val", event.data[2]);
-            prams[ix].domel.setAttribute("style", `--knob-angle:${(event.data[2] * 2.4 - 153).toFixed(1)}deg`);
+            setKnobAngle(prams[ix].domel, event.data[2]);
         }
         // remap to Synth 1 channel with prams cc
         let cc = prams[ix].p.slice(3) >> 0;
@@ -218,8 +217,8 @@ tempoSync = ["off", "1/32T", "1/32", "1/16T", "1/16", "1/8T", "1/16D", "1/8",
 {g:"osc1",n:"v-sync",p:"CC 22",m:"0 – 127"},
 {g:"osc1",n:"density",p:"CC 24",m:"0 – 127"},
 {g:"osc1",n:"density detune",p:"CC 25",m:"0 – 127"},
-{g:"osc1",n:"semitones",p:"CC 26",m:"0 – 127"},
-{g:"osc1",n:"cents",p:"CC 27",m:"0 – 127"},
+{g:"osc1",n:"semitones",p:"CC 26",m:"-63 – 64"},
+{g:"osc1",n:"cents",p:"CC 27",m:"-63 – 64"},
 //{g:"osc1",n:"pitchbend",p:"CC 28",m:"52 – 76"},
 {g:"osc2",n:"wave",p:"CC 29",m:oscwav},
 {g:"osc2",n:"wave interpolate",p:"CC 30",m:"0 – 127"},
@@ -227,8 +226,8 @@ tempoSync = ["off", "1/32T", "1/32", "1/16T", "1/16", "1/8T", "1/16D", "1/8",
 {g:"osc2",n:"v-sync",p:"CC 33",m:"0 – 127"},
 {g:"osc2",n:"density",p:"CC 35",m:"0 – 127"},
 {g:"osc2",n:"density detune",p:"CC 36",m:"0 – 127"},
-{g:"osc2",n:"semitones",p:"CC 37",m:"0 – 127"},
-{g:"osc2",n:"cents",p:"CC 39",m:"0 – 127"},
+{g:"osc2",n:"semitones",p:"CC 37",m:"-63 – 64"},
+{g:"osc2",n:"cents",p:"CC 39",m:"-63 – 64"},
 //{g:"osc2",n:"pitchbend",p:"CC 40",m:"52	– 76"}
 {g:"mixer", n:"osc 1",p:"CC 51",m:"0 – 127"},
 {g:"mixer", n:"osc	2",p:"CC 52",m:"0 – 127"},
@@ -279,18 +278,60 @@ tempoSync = ["off", "1/32T", "1/32", "1/16T", "1/16", "1/8T", "1/16D", "1/8",
                     el2.children[p.val].classList.add("selected-option");
                     el2.children[p.val].scrollIntoViewIfNeeded();
                     p.domel = el;
+                    el.addEventListener("wheel", wheelMoveList);
+                    el.expandop = p; // keep a copy of the og params object
                 } else {
                     let el = document.createElement("div");
                     let ang = Math.random()*128>>0;
                     el.textContent = p.n;
-                    el.setAttribute("data-val", ang);
-                    el.setAttribute("style",`--knob-angle:${(ang * 2.4 - 153).toFixed(1)}deg`);
+                    setKnobAngle(el,ang);
                     parent.appendChild(el);
+                    if (p.m[0]=='-')
+                        el.classList.add("bipolar");
                     p.val = ang;
                     p.domel = el;
+                    el.addEventListener("wheel", wheelMove);
                 }
             }
         });
+        function wheelMoveList(ev){
+            ev.preventDefault();
+            let se = ev.srcElement.parentElement.parentElement;
+            let param = se.expandop;
+            if (!param)
+                return;
+            let val = param.val;
+            let prv = val;
+            if (ev.deltaY<0)
+                val--;
+            else
+                val++;
+            val = Math.min(Math.max(val, 0), param.m.length-1);
+            param.val = val;
+            // now change selected list element in DOM
+            let childs = se.firstElementChild.children;
+            childs[prv].classList.remove("selected-option");
+            childs[val].classList.add("selected-option");
+            childs[val].scrollIntoViewIfNeeded();
+        }
+        function wheelMove(ev){
+            ev.preventDefault();
+            let deltaTime = ev.timeStamp - struth.lastWheelTime;
+            struth.lastWheelTime = ev.timeStamp;
+            let se = ev.srcElement;
+            let inc = -1;
+            let val = parseInt(se.dataset.val);
+            if (deltaTime<200)
+                inc = inc<<2;
+            if (deltaTime<30)
+                inc = inc<<2;
+
+            if (ev.deltaY<0)
+                inc *= -1;
+            val += inc;
+            val = Math.min(Math.max(val, 0), 127);
+            setKnobAngle(se, val);
+        }
         // see if we can set the hardware knob position by sending CC = data-val
         midiout = midi.outputs.values().next();
         midiout = midiout.value;
@@ -299,6 +340,16 @@ tempoSync = ["off", "1/32T", "1/32", "1/16T", "1/16", "1/8T", "1/16D", "1/8",
             //midiout.send([0x90,44,120]);
             //midiout.send([0x80,44,120]);
         // }
+    }
+    function setKnobAngle(ele,byte){
+        ele.dataset.val = byte;
+        ele.dataset.valbp = byte - 63;
+        ele.setAttribute("style", `--knob-angle:${(byte * 2.4 - 153).toFixed(1)}deg`);
+    }
+    function setKnobOption(ele,byte){
+    }
+    let struth = {
+        lastWheelTime:0
     }
     </script>
 </body>

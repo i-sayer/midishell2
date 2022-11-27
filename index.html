@@ -351,7 +351,7 @@ tempoSync = ["❮ off", "1/32T", "1/32", "1/16T", "1/16", "1/8T", "1/16D", "1/8"
             let deltaTime = ev.timeStamp - struth.lastWheelTime;
             struth.lastWheelTime = ev.timeStamp;
             let se = ev.srcElement;
-            let inc = -1;
+            let inc = 1;
             let val = parseInt(se.dataset.val);
             if (deltaTime<200)
                 inc = inc<<2;

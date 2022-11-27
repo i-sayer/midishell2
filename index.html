@@ -26,9 +26,12 @@
     <hr/>
     <main>
     <section id="osc1" class="active"></section>
-    <section id="osc2"></section>
     <section id="mixer"></section>
+    <section id="osc2"></section>
+    <section id="filterin"></section>
     <section id="filter"></section>
+    <section id="lfo1"></section>
+    <section id="lfo2"></section>
     <section id="reverb"></section>
     <section id="delay"></section>
     </main>
@@ -157,7 +160,7 @@
     }
 
     navigator.requestMIDIAccess({sysex:true}).then(onMIDISuccess, onMIDIFailure);
-    routing = ["normal","osc1 bypass", "both osc bypass"];
+    lfowav = ["sine","triangle","sawtooth","square","random S/H","time S/H","piano envelope","sequence 1","sequence 2","sequence 3","sequence 4","sequence 5","sequence 6","sequence 7","alternative 1","alternative 2","alternative 3","alternative 4","alternative 5","alternative 6","alternative 7","alternative 8","chromatic","chromatic 16","major","major 7","minor 7","min arp 1","min arp 2","diminished","dec minor","minor 3rd","pedal","4ths","4ths x12","1625 maj","1625 Min","2511"];    routing = ["normal","osc1 bypass", "both osc bypass"];
     oscwav = [
 "sine",
 "triangle",
@@ -207,7 +210,7 @@ types = [
 "highpass	12dB",
 "highpass	24dB",
 ];
-tempoSync = ["off", "1/32T", "1/32", "1/16T", "1/16", "1/8T", "1/16D", "1/8",
+tempoSync = ["❮ off", "1/32T", "1/32", "1/16T", "1/16", "1/8T", "1/16D", "1/8",
         "1/4T", "1/8D", "1/4", "1.1/3", "1/4D", "1/2", "2.2/3", "3", "4", "5.1/3", "6", "8", "10.2/3", "12", "13.1/3",
         "16", "18", "18.2/3", "20", "21.1/3", "24", "28", "30", "32", "36", "42", "48", "64"];
     prams = [
@@ -235,15 +238,44 @@ tempoSync = ["off", "1/32T", "1/32", "1/16T", "1/16", "1/8T", "1/16D", "1/8",
 {g:"mixer", n:"noise",p:"CC 56",m:"0 – 127"},
 {g:"mixer", n:"pre	FX",p:"CC 58",m:"52	– 82"},
 {g:"mixer", n:"post	FX",p:"CC 59",m:"52	– 82"},
-{g: "filter", n:"routing", p:"CC 60", m:routing}, // 0 = Normal,1 = Osc	1	bypasses	the	filter,2 = Osc	1 + Osc	2	bypasses the	filter
-{g: "filter", n:"drive", p:"CC 63", m:"0 – 127"},
-{g: "filter", n:"drive type", p:"CC 65", m:drivetypes },
+{g: "filterin", n:"routing", p:"CC 60", m:routing}, // 0 = Normal,1 = Osc	1	bypasses	the	filter,2 = Osc	1 + Osc	2	bypasses the	filter
+{g: "filterin", n:"drive", p:"CC 63", m:"0 – 127"},
+{g: "filterin", n:"drive type", p:"CC 65", m:drivetypes },
 {g: "filter", n:"type", p:"CC 68", m:types },
 {g: "filter", n:"frequency", p:"CC 74", m:"0 – 127" },
 {g: "filter", n:"tracking", p:"CC 69", m:"0	– 127" },
 {g: "filter", n:"resonance", p:"CC 71", m:"0	– 127" },
 {g: "filter", n:"env2 mod", p:"CC 79", m:"0	– 127" },
 {g: "filter", n:"Q normalize", p:"CC 78", m:"0	– 127" },
+
+{g:"lfo1", n:"waveform", p:"NRPN 0:70", m:lfowav},
+{g:"lfo1", n:"phase offset", p:"NRPN 0:71", m:"0 – 119"},
+{g:"lfo1", n:"slew rate", p:"NRPN 0:72", m:"0 – 127"},
+{g:"lfo1", n:"delay", p:"NRPN 0:74", m:"0 – 127"},
+{g:"lfo1", n:"delay sync", p:"NRPN 0:75", m:tempoSync},
+{g:"lfo1", n:"rate", p:"NRPN 0:76", m:"0 – 127"},
+{g:"lfo1", n:"rate sync", p:"NRPN 0:77", m:tempoSync},
+{g:"lfo1", n:"one shot", p:"NRPN 0:122", m:"12 – 13"},
+{g:"lfo1", n:"key sync", p:"NRPN 0:122", m:"14 – 15"},
+{g:"lfo1", n:"common sync", p:"NRPN 0:122", m:"16 – 17"},
+{g:"lfo1", n:"delay trigger", p:"NRPN 0:122", m:"18 – 19"},
+{g:"lfo1", n:"fade mode", p:"NRPN 0:123", m:"0 – 3"},
+{g:"lfo2", n:"waveform", p:"NRPN 0:79", m:lfowav},
+{g:"lfo2", n:"phase offset", p:"NRPN 0:80", m:"0 – 119"},
+{g:"lfo2", n:"slew rate", p:"NRPN 0:81", m:"0 – 127"},
+{g:"lfo2", n:"delay", p:"NRPN 0:83", m:"0 – 127"},
+{g:"lfo2", n:"delay sync", p:"NRPN 0:84", m:tempoSync},
+{g:"lfo2", n:"rate", p:"NRPN 0:85", m:"0– 127"},
+{g:"lfo2", n:"rate sync", p:"NRPN 0:86", m:tempoSync},
+{g:"lfo2", n:"one shot", p:"NRPN 0:122", m:"2– 23"},
+{g:"lfo2", n:"key sync", p:"NRPN 0:122", m:"4– 25"},
+{g:"lfo2", n:"common sync", p:"NRPN 0:122", m:"6– 27"},
+{g:"lfo2", n:"delay trigger", p:"NRPN 0:122", m:"8– 29"},
+{g:"lfo2", n:"fade mode", p:"NRPN 0:123", m:"4– 7"},
+
+
+
+
 {g: "reverb", n:"Type", p:"1:18", m:["Chamber","Small Room","Large Room","Small Hall","Large Hall","Great Hall"] },
 {g: "reverb", n:"Decay", p:"1:19", m:"0 - 127" },
 {g: "reverb", n:"Damping", p:"1:20", m:"0 - 127" },

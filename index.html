@@ -32,6 +32,9 @@
     <section id="filter"></section>
     <section id="lfo1"></section>
     <section id="lfo2"></section>
+    <section id="env1"></section>
+    <section id="env2"></section>
+    <section id="env3"></section>
     <section id="reverb"></section>
     <section id="delay"></section>
     </main>
@@ -215,64 +218,79 @@ tempoSync = ["❮ off", "1/32T", "1/32", "1/16T", "1/16", "1/8T", "1/16D", "1/8"
         "16", "18", "18.2/3", "20", "21.1/3", "24", "28", "30", "32", "36", "42", "48", "64"];
     prams = [
 {g:"osc1",n:"wave",p:"CC 19",m:oscwav},
-{g:"osc1",n:"wave interpolate",p:"CC 20",m:"0 – 127"},
-{g:"osc1",n:"pw/index",p:"CC 21",m:"0 – 127"},
-{g:"osc1",n:"v-sync",p:"CC 22",m:"0 – 127"},
-{g:"osc1",n:"density",p:"CC 24",m:"0 – 127"},
-{g:"osc1",n:"density detune",p:"CC 25",m:"0 – 127"},
-{g:"osc1",n:"semitones",p:"CC 26",m:"-63 – 64"},
-{g:"osc1",n:"cents",p:"CC 27",m:"-63 – 64"},
-//{g:"osc1",n:"pitchbend",p:"CC 28",m:"52 – 76"},
+{g:"osc1",n:"wave interpolate",p:"CC 20",m:"0 - 127"},
+{g:"osc1",n:"pw/index",p:"CC 21",m:"0 - 127"},
+{g:"osc1",n:"v-sync",p:"CC 22",m:"0 - 127"},
+{g:"osc1",n:"density",p:"CC 24",m:"0 - 127"},
+{g:"osc1",n:"density detune",p:"CC 25",m:"0 - 127"},
+{g:"osc1",n:"semitones",p:"CC 26",m:"-63 - 64"},
+{g:"osc1",n:"cents",p:"CC 27",m:"-63 - 64"},
+//{g:"osc1",n:"pitchbend",p:"CC 28",m:"52 - 76"},
 {g:"osc2",n:"wave",p:"CC 29",m:oscwav},
-{g:"osc2",n:"wave interpolate",p:"CC 30",m:"0 – 127"},
-{g:"osc2",n:"pw/index",p:"CC 31",m:"0 – 127"},
-{g:"osc2",n:"v-sync",p:"CC 33",m:"0 – 127"},
-{g:"osc2",n:"density",p:"CC 35",m:"0 – 127"},
-{g:"osc2",n:"density detune",p:"CC 36",m:"0 – 127"},
-{g:"osc2",n:"semitones",p:"CC 37",m:"-63 – 64"},
-{g:"osc2",n:"cents",p:"CC 39",m:"-63 – 64"},
-//{g:"osc2",n:"pitchbend",p:"CC 40",m:"52	– 76"}
-{g:"mixer", n:"osc 1",p:"CC 51",m:"0 – 127"},
-{g:"mixer", n:"osc	2",p:"CC 52",m:"0 – 127"},
-{g:"mixer", n:"ring	mod",p:"CC 54",m:"0 – 127"},
-{g:"mixer", n:"noise",p:"CC 56",m:"0 – 127"},
-{g:"mixer", n:"pre	FX",p:"CC 58",m:"52	– 82"},
-{g:"mixer", n:"post	FX",p:"CC 59",m:"52	– 82"},
+{g:"osc2",n:"wave interpolate",p:"CC 30",m:"0 - 127"},
+{g:"osc2",n:"pw/index",p:"CC 31",m:"0 - 127"},
+{g:"osc2",n:"v-sync",p:"CC 33",m:"0 - 127"},
+{g:"osc2",n:"density",p:"CC 35",m:"0 - 127"},
+{g:"osc2",n:"density detune",p:"CC 36",m:"0 - 127"},
+{g:"osc2",n:"semitones",p:"CC 37",m:"-63 - 64"},
+{g:"osc2",n:"cents",p:"CC 39",m:"-63 - 64"},
+//{g:"osc2",n:"pitchbend",p:"CC 40",m:"52	- 76"}
+{g:"mixer", n:"osc 1",p:"CC 51",m:"0 - 127"},
+{g:"mixer", n:"osc	2",p:"CC 52",m:"0 - 127"},
+{g:"mixer", n:"ring	mod",p:"CC 54",m:"0 - 127"},
+{g:"mixer", n:"noise",p:"CC 56",m:"0 - 127"},
+{g:"mixer", n:"pre	FX",p:"CC 58",m:"52	- 82"},
+{g:"mixer", n:"post	FX",p:"CC 59",m:"52	- 82"},
 {g: "filterin", n:"routing", p:"CC 60", m:routing}, // 0 = Normal,1 = Osc	1	bypasses	the	filter,2 = Osc	1 + Osc	2	bypasses the	filter
-{g: "filterin", n:"drive", p:"CC 63", m:"0 – 127"},
+{g: "filterin", n:"drive", p:"CC 63", m:"0 - 127"},
 {g: "filterin", n:"drive type", p:"CC 65", m:drivetypes },
 {g: "filter", n:"type", p:"CC 68", m:types },
-{g: "filter", n:"frequency", p:"CC 74", m:"0 – 127" },
-{g: "filter", n:"tracking", p:"CC 69", m:"0	– 127" },
-{g: "filter", n:"resonance", p:"CC 71", m:"0	– 127" },
-{g: "filter", n:"env2 mod", p:"CC 79", m:"0	– 127" },
-{g: "filter", n:"Q normalize", p:"CC 78", m:"0	– 127" },
+{g: "filter", n:"frequency", p:"CC 74", m:"0 - 127" },
+{g: "filter", n:"tracking", p:"CC 69", m:"0	- 127" },
+{g: "filter", n:"resonance", p:"CC 71", m:"0	- 127" },
+{g: "filter", n:"env2 mod", p:"CC 79", m:"0	- 127" },
+{g: "filter", n:"Q normalize", p:"CC 78", m:"0	- 127" },
 
 {g:"lfo1", n:"waveform", p:"NRPN 0:70", m:lfowav},
-{g:"lfo1", n:"phase offset", p:"NRPN 0:71", m:"0 – 119"},
-{g:"lfo1", n:"slew rate", p:"NRPN 0:72", m:"0 – 127"},
-{g:"lfo1", n:"delay", p:"NRPN 0:74", m:"0 – 127"},
+{g:"lfo1", n:"phase offset", p:"NRPN 0:71", m:"0 - 119"},
+{g:"lfo1", n:"slew rate", p:"NRPN 0:72", m:"0 - 127"},
+{g:"lfo1", n:"delay", p:"NRPN 0:74", m:"0 - 127"},
 {g:"lfo1", n:"delay sync", p:"NRPN 0:75", m:tempoSync},
-{g:"lfo1", n:"rate", p:"NRPN 0:76", m:"0 – 127"},
+{g:"lfo1", n:"rate", p:"NRPN 0:76", m:"0 - 127"},
 {g:"lfo1", n:"rate sync", p:"NRPN 0:77", m:tempoSync},
-{g:"lfo1", n:"one shot", p:"NRPN 0:122", m:"12 – 13"},
-{g:"lfo1", n:"key sync", p:"NRPN 0:122", m:"14 – 15"},
-{g:"lfo1", n:"common sync", p:"NRPN 0:122", m:"16 – 17"},
-{g:"lfo1", n:"delay trigger", p:"NRPN 0:122", m:"18 – 19"},
-{g:"lfo1", n:"fade mode", p:"NRPN 0:123", m:"0 – 3"},
+{g:"lfo1", n:"", p:"NRPN 0:122",  m:{f:mkswitch, s:["One Shot","Common Sync"]}},//m:"*12,13"},
+//{g:"lfo1", n:"common sync", p:"NRPN 0:122", m:"*16,17"},
+{g:"lfo1", n:"sync style", p:"NRPN 0:122", m:{f:mkswitch, s:["⦿ Free","⦾ Key Sync"]}},
+{g:"lfo1", n:"delay trig", p:"NRPN 0:122", m:{f:mkswitch, s:["⦿ Single","⦾ Multi"]}},
+{g:"lfo1", n:"fade mode", p:"NRPN 0:123", m:{f:mkswitch, s:["⦿ Fade in","⦾ Fade out","⦾ Gate in","⦾ Gate out"]}},
 {g:"lfo2", n:"waveform", p:"NRPN 0:79", m:lfowav},
-{g:"lfo2", n:"phase offset", p:"NRPN 0:80", m:"0 – 119"},
-{g:"lfo2", n:"slew rate", p:"NRPN 0:81", m:"0 – 127"},
-{g:"lfo2", n:"delay", p:"NRPN 0:83", m:"0 – 127"},
+{g:"lfo2", n:"phase offset", p:"NRPN 0:80", m:"0 - 119"},
+{g:"lfo2", n:"slew rate", p:"NRPN 0:81", m:"0 - 127"},
+{g:"lfo2", n:"delay", p:"NRPN 0:83", m:"0 - 127"},
 {g:"lfo2", n:"delay sync", p:"NRPN 0:84", m:tempoSync},
-{g:"lfo2", n:"rate", p:"NRPN 0:85", m:"0– 127"},
+{g:"lfo2", n:"rate", p:"NRPN 0:85", m:"0- 127"},
 {g:"lfo2", n:"rate sync", p:"NRPN 0:86", m:tempoSync},
-{g:"lfo2", n:"one shot", p:"NRPN 0:122", m:"2– 23"},
-{g:"lfo2", n:"key sync", p:"NRPN 0:122", m:"4– 25"},
-{g:"lfo2", n:"common sync", p:"NRPN 0:122", m:"6– 27"},
-{g:"lfo2", n:"delay trigger", p:"NRPN 0:122", m:"8– 29"},
-{g:"lfo2", n:"fade mode", p:"NRPN 0:123", m:"4– 7"},
+{g:"lfo2", n:"one shot", p:"NRPN 0:122", m:"22- 23"},
+{g:"lfo2", n:"key sync", p:"NRPN 0:122", m:"24- 25"},
+{g:"lfo2", n:"common sync", p:"NRPN 0:122", m:"26- 27"},
+{g:"lfo2", n:"delay trigger", p:"NRPN 0:122", m:"28- 29"},
+{g:"lfo2", n:"fade mode", p:"NRPN 0:123", m:"4- 7"},
 
+{g:"env1", n:"velocity", p:"CC 108", m:"-64 - 63"},
+{g:"env1", n:"attack", p:"CC 73", m:"0 - 127"},
+{g:"env1", n:"decay", p:"CC 75", m:"0 - 127"},
+{g:"env1", n:"sustain", p:"CC 70", m:"0 - 127"},
+{g:"env1", n:"release", p:"CC 72", m:"0 - 127"},
+{g:"env2", n:"velocity", p:"NRPN 0:0", m:"-64 - 63"},
+{g:"env2", n:"attack", p:"NRPN 0:1", m:"0 - 127"},
+{g:"env2", n:"decay", p:"NRPN 0:2", m:"0 - 127"},
+{g:"env2", n:"sustain", p:"NRPN 0:3", m:"0 - 127"},
+{g:"env2", n:"release", p:"NRPN 0:4", m:"0 - 127"},
+{g:"env3", n:"delay", p:"NRPN 0:14", m:"0 - 127"},
+{g:"env3", n:"attack", p:"NRPN 0:15", m:"0 - 127"},
+{g:"env3", n:"decay", p:"NRPN 0:16", m:"0 - 127"},
+{g:"env3", n:"sustain", p:"NRPN 0:17", m:"0 - 127"},
+{g:"env3", n:"release", p:"NRPN 0:18", m:"0 - 127"},
 
 
 
@@ -287,12 +305,27 @@ tempoSync = ["❮ off", "1/32T", "1/32", "1/16T", "1/16", "1/8T", "1/16D", "1/8"
 
 
 ];
+    function mkswitch(o){
+        let d = document.createElement("section");
+        d.classList.add("switch");
+        if (o.n){
+            let head=document.createElement("h4");
+            head.textContent = o.n;
+            d.appendChild(head);
+        }
+        o.m.s.forEach( s => {
+            let sw = document.createElement("span");
+            sw.textContent = s;
+            d.appendChild(sw);
+        })
+        return d;
+    }
     function initSynth(){
         let kx = { k1: 0, k2: 1, k5: 2, kb: 3, kc: 4, kd: 5, k47: 6, k4a: 7 };
         prams.forEach(function (p) {
             let parent = document.getElementById(p.g);
             if (parent) {
-                if (typeof(p.m)=='object') {
+                if (Array.isArray(p.m)) {
                     let el = document.createElement("p");
                     let el2 = document.createElement("ul");
                     let op = Math.random() * 128 >> 0;
@@ -312,6 +345,9 @@ tempoSync = ["❮ off", "1/32T", "1/32", "1/16T", "1/16", "1/8T", "1/16D", "1/8"
                     p.domel = el;
                     el.addEventListener("wheel", wheelMoveList);
                     el.expandop = p; // keep a copy of the og params object
+                } else if (typeof(p.m)=="object") {
+                    let pp = p.m.f(p);
+                    parent.appendChild(pp)
                 } else {
                     let el = document.createElement("div");
                     let ang = Math.random()*128>>0;

@@ -33,7 +33,7 @@ svg {
 section[id] {
     display: flex;
     gap: 2px;
-    font-size: .9em;;
+    font-size: .8em;;
 }
 section[id]>div::before {
     content:attr(data-val);
@@ -94,4 +94,17 @@ header {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
+}
+section.switch:has(h4) {
+    align-content:initial;
+}
+section.switch>h4 {
+    margin: 0 0 6px 0;
+}
+section.switch {
+    font-variant: small-caps;
+    display: grid;
+    align-content: space-evenly;
+    white-space: nowrap;
+    padding: 4px;
 }

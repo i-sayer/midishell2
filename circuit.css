@@ -108,3 +108,11 @@ section.switch {
     white-space: nowrap;
     padding: 4px;
 }
+#direction[data-reverse="1"]::before{
+    content:"⟳"
+}
+#direction::before{
+    content: "⟲";
+    font-size: 1.2em;
+    margin-right: 0.5rem;
+}
